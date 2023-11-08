@@ -60,10 +60,11 @@ func TestLoadFile(t *testing.T) {
 					},
 				},
 				Defaults: &model.Defaults{
-					WatchRepo: utl.NewFalse(),
-					NotifyOn:  []model.NotifyOn{model.NotifyOnNew},
-					MaxTags:   5,
-					SortTags:  registry.SortTagReverse,
+					WatchRepo:   utl.NewFalse(),
+					NotifyOn:    []model.NotifyOn{model.NotifyOnNew},
+					MaxTags:     5,
+					SortTags:    registry.SortTagReverse,
+					IncludeTags: []string{".*"},
 				},
 				Notif: &model.Notif{
 					Amqp: &model.NotifAmqp{
@@ -366,6 +367,31 @@ func TestLoadEnv(t *testing.T) {
 						},
 					},
 				},
+				Providers: &model.Providers{
+					File: &model.PrdFile{
+						Directory: "./fixtures",
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			desc: "defaults",
+			environ: []string{
+				"DIUN_DEFAULTS_INCLUDETAGS=.*",
+				"DIUN_DEFAULTS_WATCHREPO=true",
+				"DIUN_PROVIDERS_FILE_DIRECTORY=./fixtures",
+			},
+			expected: &Config{
+				Db:    (&model.Db{}).GetDefaults(),
+				Watch: (&model.Watch{}).GetDefaults(),
+				Defaults: &model.Defaults{
+					WatchRepo:   utl.NewTrue(),
+					NotifyOn:    model.NotifyOnDefaults,
+					SortTags:    registry.SortTagReverse,
+					IncludeTags: []string{".*"},
+				},
+				Notif: nil,
 				Providers: &model.Providers{
 					File: &model.PrdFile{
 						Directory: "./fixtures",

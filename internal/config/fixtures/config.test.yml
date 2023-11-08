@@ -16,6 +16,8 @@ defaults:
   notifyOn:
     - new
   maxTags: 5
+  includeTags:
+    - ".*"
 
 notif:
   amqp:

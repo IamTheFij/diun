@@ -11,10 +11,9 @@ permissions:
 on:
   push:
     branches:
-      - 'master'
       - 'iamthefij'
     tags:
-      - 'v*'
+      - 'v*-iamthefij*'
   pull_request:
 
 env:

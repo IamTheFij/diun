@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"slices"
 
 	"github.com/crazy-max/diun/v4/pkg/registry"
 	"github.com/pkg/errors"
@@ -95,11 +96,6 @@ func (ns *NotifyOn) Valid() bool {
 }
 
 // OneOf checks if notify status is one of the values in the list
-func (ns *NotifyOn) OneOf(nsl []NotifyOn) bool {
-	for _, n := range nsl {
-		if n == *ns {
-			return true
-		}
-	}
-	return false
+func (ns NotifyOn) OneOf(nsl []NotifyOn) bool {
+	return slices.Contains(nsl, ns)
 }
